@@ -56,14 +56,23 @@
     </div>
     <!-- Create/Edit Modal -->
     <div v-if="showForm" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 backdrop-blur-sm" @click.self="showForm=false">
-      <div class="card p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto">
-        <h3 class="text-lg font-medium text-dark-100 mb-4">{{ editingId?t('strat.form_edit'):t('strat.form_create') }}</h3>
+      <div class="card p-5 w-full max-w-lg max-h-[90vh] overflow-y-auto mx-3">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-base sm:text-lg font-medium text-dark-100">{{ editingId?t('strat.form_edit'):t('strat.form_create') }}</h3>
+          <button @click="showForm=false" class="text-dark-500 hover:text-dark-300 text-lg">✕</button>
+        </div>
         <div class="space-y-3">
           <div><label class="label">{{ t('strat.name') }}</label><input v-model="form.name" class="input" :placeholder="t('strat.name_ph')" /></div>
           <div><label class="label">{{ t('strat.mode_label') }}</label><div class="flex gap-3"><label class="flex items-center gap-2 cursor-pointer"><input type="radio" v-model="form.mode" value="priority" class="text-primary-500" /><span class="text-sm text-dark-300">{{ t('strat.mode_priority_label') }}</span></label><label class="flex items-center gap-2 cursor-pointer"><input type="radio" v-model="form.mode" value="round_robin" class="text-primary-500" /><span class="text-sm text-dark-300">{{ t('strat.mode_rr_label') }}</span></label></div></div>
           <div class="border-t border-dark-700/50 pt-3"><p class="text-sm font-medium text-dark-300 mb-2">{{ t('strat.quota_title') }}</p><div class="grid grid-cols-2 gap-3"><div><label class="label">{{ t('strat.prompt_limit') }}</label><input v-model.number="form.prompt_token_limit" type="number" class="input" /></div><div><label class="label">{{ t('strat.completion_limit') }}</label><input v-model.number="form.completion_token_limit" type="number" class="input" /></div></div></div>
           <div class="border-t border-dark-700/50 pt-3">
-            <label class="label">{{ t('strat.select_providers') }}</label>
+            <div class="flex items-center justify-between mb-2">
+              <label class="label mb-0">{{ t('strat.select_providers') }}</label>
+              <div class="flex gap-2">
+                <button @click="showForm=false" class="btn-sm btn-secondary">{{ t('strat.cancel') }}</button>
+                <button @click="saveStrategy" :disabled="saving" class="btn-sm btn-primary">{{ saving?t('strat.saving'):editingId?t('strat.save'):t('strat.create') }}</button>
+              </div>
+            </div>
             <p class="text-[10px] text-dark-500 mb-2">{{ t('strat.drag_hint') }}</p>
             <div v-if="allProviders.length===0" class="text-dark-500 text-sm py-2">{{ t('strat.no_providers') }}</div>
             <div v-if="orderedSelected.length>0" class="mb-3">
@@ -85,7 +94,6 @@
           </div>
         </div>
         <p v-if="formError" class="text-red-400 text-sm mt-3">{{ formError }}</p>
-        <div class="flex justify-end gap-2 mt-5"><button @click="showForm=false" class="btn-secondary">{{ t('strat.cancel') }}</button><button @click="saveStrategy" :disabled="saving" class="btn-primary">{{ saving?t('strat.saving'):editingId?t('strat.save'):t('strat.create') }}</button></div>
       </div>
     </div>
   </div>

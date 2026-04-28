@@ -66,9 +66,12 @@
     </div>
     <!-- Add/Edit Modal -->
     <div v-if="showForm" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 backdrop-blur-sm" @click.self="showForm=false">
-      <div class="card p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto">
-        <h3 class="text-lg font-medium text-dark-100 mb-4">{{ editingId ? t('prov.form_edit') : t('prov.form_add') }}</h3>
-        <div v-if="!editingId" class="mb-5"><p class="label">{{ t('prov.presets') }}</p><div class="flex flex-wrap gap-2"><button v-for="preset in presets" :key="preset.name" @click="applyPreset(preset)" class="btn-sm btn-secondary text-xs">{{ preset.name }}</button></div></div>
+      <div class="card p-5 w-full max-w-lg max-h-[90vh] overflow-y-auto mx-3">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-base sm:text-lg font-medium text-dark-100">{{ editingId ? t('prov.form_edit') : t('prov.form_add') }}</h3>
+          <button @click="showForm=false" class="text-dark-500 hover:text-dark-300 text-lg">✕</button>
+        </div>
+        <div v-if="!editingId" class="mb-4"><p class="label">{{ t('prov.presets') }}</p><div class="flex flex-wrap gap-2"><button v-for="preset in presets" :key="preset.name" @click="applyPreset(preset)" class="btn-sm btn-secondary text-xs">{{ preset.name }}</button></div></div>
         <div class="space-y-3">
           <div><label class="label">{{ t('prov.name') }}</label><input v-model="form.name" class="input" :placeholder="t('prov.name_ph')" /></div>
           <div><label class="label">{{ t('prov.base_url') }}</label><input v-model="form.base_url" class="input font-mono text-xs" placeholder="https://api.openai.com/v1" /></div>
@@ -82,7 +85,7 @@
           </div>
           <div class="border-t border-dark-700/50 pt-3">
             <label class="label">Custom Headers <span class="text-dark-500 font-normal">(JSON)</span></label>
-            <textarea v-model="form.custom_headers" class="input font-mono text-xs h-24" placeholder='{"x-title": "Roo Code", "user-agent": "RooCode/3.31.0"}'></textarea>
+            <textarea v-model="form.custom_headers" class="input font-mono text-xs h-20" placeholder='{"x-title": "Roo Code", "user-agent": "RooCode/3.31.0"}'></textarea>
             <p class="text-[10px] text-dark-500 mt-1">Required for Kimi-for-coding and similar APIs</p>
           </div>
           <div class="border-t border-dark-700/50 pt-3">
