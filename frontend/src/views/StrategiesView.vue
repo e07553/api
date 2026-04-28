@@ -12,7 +12,7 @@
             <div class="flex items-center gap-2"><h3 class="font-medium text-dark-100">{{ s.name }}</h3><span class="badge bg-primary-500/20 text-primary-400">{{ s.mode==='priority'?t('strat.mode_priority'):t('strat.mode_round_robin') }}</span></div>
             <p class="text-xs text-dark-500 mt-1">{{ s.providers?.length||0 }} {{ t('strat.providers_count') }}</p>
           </div>
-          <div class="flex gap-2">
+          <div class="flex flex-wrap gap-1.5">
             <button @click="showGuide=s" class="btn-sm btn-success">{{ t('strat.view_config') }}</button>
             <button @click="openForm(s)" class="btn-sm btn-secondary">{{ t('strat.edit') }}</button>
             <button @click="resetUsage(s.id)" class="btn-sm btn-secondary">{{ t('strat.reset') }}</button>

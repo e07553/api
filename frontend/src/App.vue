@@ -69,7 +69,7 @@
       </main>
 
       <!-- 移动端底部导航 -->
-      <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-dark-900/95 backdrop-blur-sm border-t border-dark-700/50 flex justify-around py-2 px-1 z-50">
+      <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-dark-900/95 backdrop-blur-sm border-t border-dark-700/50 flex justify-around py-2 px-1 z-50 pb-safe">
         <router-link v-for="item in navItems" :key="item.path" :to="item.path"
           class="flex flex-col items-center gap-1 px-2 py-1 text-xs transition-colors"
           :class="$route.path === item.path ? 'text-primary-400' : 'text-dark-500'">

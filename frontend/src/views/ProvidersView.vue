@@ -16,7 +16,7 @@
             <p class="text-xs text-dark-500 font-mono mt-1">{{ p.base_url }} · {{ p.model_id }}</p>
             <p v-if="p.proxy_url" class="text-xs text-dark-600 font-mono mt-0.5">{{ t('prov.proxy_label') }}: {{ maskProxy(p.proxy_url) }}</p>
           </div>
-          <div class="flex gap-2">
+          <div class="flex flex-wrap gap-1.5">
             <button @click="runTest(p.id)" class="btn-sm btn-secondary">{{ t('prov.test') }}</button>
             <button @click="openForm(p)" class="btn-sm btn-secondary">{{ t('prov.edit') }}</button>
             <button @click="resetUsage(p.id)" class="btn-sm btn-secondary">{{ t('prov.reset') }}</button>

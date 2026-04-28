@@ -1,13 +1,13 @@
 <template>
   <div class="space-y-6">
     <h2 class="text-xl font-bold text-dark-100">{{ t('logs.title') }}</h2>
-    <div class="card p-4">
-      <div class="grid grid-cols-2 lg:grid-cols-5 gap-3">
-        <div><label class="label">{{ t('logs.provider') }}</label><select v-model="filters.provider_id" @change="loadLogs" class="input"><option value="">{{ t('logs.all') }}</option><option v-for="p in providers" :key="p.id" :value="p.id">{{ p.name }}</option></select></div>
-        <div><label class="label">{{ t('logs.strategy') }}</label><select v-model="filters.strategy_id" @change="loadLogs" class="input"><option value="">{{ t('logs.all') }}</option><option v-for="s in strategies" :key="s.id" :value="s.id">{{ s.name }}</option></select></div>
-        <div><label class="label">{{ t('logs.country') }}</label><input v-model="filters.country" @input="debounceLoad" class="input" placeholder="e.g. China" /></div>
-        <div><label class="label">{{ t('logs.start_date') }}</label><input v-model="filters.start_date" type="date" class="input" @change="loadLogs" /></div>
-        <div><label class="label">{{ t('logs.end_date') }}</label><input v-model="filters.end_date" type="date" class="input" @change="loadLogs" /></div>
+    <div class="card p-3 sm:p-4">
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3">
+        <div><label class="label">{{ t('logs.provider') }}</label><select v-model="filters.provider_id" @change="loadLogs" class="input text-xs"><option value="">{{ t('logs.all') }}</option><option v-for="p in providers" :key="p.id" :value="p.id">{{ p.name }}</option></select></div>
+        <div><label class="label">{{ t('logs.strategy') }}</label><select v-model="filters.strategy_id" @change="loadLogs" class="input text-xs"><option value="">{{ t('logs.all') }}</option><option v-for="s in strategies" :key="s.id" :value="s.id">{{ s.name }}</option></select></div>
+        <div><label class="label">{{ t('logs.country') }}</label><input v-model="filters.country" @input="debounceLoad" class="input text-xs" placeholder="e.g. China" /></div>
+        <div><label class="label">{{ t('logs.start_date') }}</label><input v-model="filters.start_date" type="date" class="input text-xs" @change="loadLogs" /></div>
+        <div><label class="label">{{ t('logs.end_date') }}</label><input v-model="filters.end_date" type="date" class="input text-xs" @change="loadLogs" /></div>
       </div>
     </div>
     <div class="card overflow-hidden">

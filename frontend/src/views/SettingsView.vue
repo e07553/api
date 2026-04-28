@@ -90,7 +90,7 @@
               <p class="text-sm font-mono text-dark-200">{{ editingKeyId === k.id ? '' : k.key_preview }}</p>
               <p class="text-xs text-dark-500">{{ k.strategy_name || 'Unknown Strategy' }}</p>
             </div>
-            <div class="flex gap-2">
+            <div class="flex flex-wrap gap-1.5">
               <button v-if="editingKeyId === k.id" @click="saveKeyEdit(k.id)" class="btn-sm btn-primary">{{ t('set.save') }}</button>
               <button v-if="editingKeyId === k.id" @click="cancelKeyEdit" class="btn-sm btn-secondary">✕</button>
               <button v-else @click="startKeyEdit(k)" class="btn-sm btn-secondary">{{ t('set.edit_key') }}</button>

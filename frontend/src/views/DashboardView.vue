@@ -1,11 +1,11 @@
 <template>
   <div class="space-y-6">
     <h2 class="text-xl font-bold text-dark-100">{{ t('dash.title') }}</h2>
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-      <div class="card p-4"><p class="text-dark-400 text-xs uppercase tracking-wider">{{ t('dash.total_strategies') }}</p><p class="text-2xl font-bold text-dark-100 mt-1">{{ overview.strategies ?? '-' }}</p></div>
-      <div class="card p-4"><p class="text-dark-400 text-xs uppercase tracking-wider">{{ t('dash.total_providers') }}</p><p class="text-2xl font-bold text-dark-100 mt-1">{{ overview.providers ?? '-' }}</p></div>
-      <div class="card p-4" :class="overview.faultCount > 0 ? 'border-red-500/50' : ''"><p class="text-dark-400 text-xs uppercase tracking-wider">{{ t('dash.fault_throttled') }}</p><p class="text-2xl font-bold mt-1" :class="overview.faultCount > 0 ? 'text-red-400' : 'text-dark-100'">{{ overview.faultCount ?? 0 }} / {{ overview.throttledCount ?? 0 }}</p></div>
-      <div class="card p-4"><p class="text-dark-400 text-xs uppercase tracking-wider">{{ t('dash.today_requests') }}</p><p class="text-2xl font-bold text-primary-400 mt-1">{{ overview.todayRequests?.toLocaleString() ?? '-' }}</p></div>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div class="card p-3 sm:p-4"><p class="text-dark-400 text-[10px] sm:text-xs uppercase tracking-wider">{{ t('dash.total_strategies') }}</p><p class="text-xl sm:text-2xl font-bold text-dark-100 mt-1">{{ overview.strategies ?? '-' }}</p></div>
+      <div class="card p-3 sm:p-4"><p class="text-dark-400 text-[10px] sm:text-xs uppercase tracking-wider">{{ t('dash.total_providers') }}</p><p class="text-xl sm:text-2xl font-bold text-dark-100 mt-1">{{ overview.providers ?? '-' }}</p></div>
+      <div class="card p-3 sm:p-4" :class="overview.faultCount > 0 ? 'border-red-500/50' : ''"><p class="text-dark-400 text-[10px] sm:text-xs uppercase tracking-wider">{{ t('dash.fault_throttled') }}</p><p class="text-xl sm:text-2xl font-bold mt-1" :class="overview.faultCount > 0 ? 'text-red-400' : 'text-dark-100'">{{ overview.faultCount ?? 0 }} / {{ overview.throttledCount ?? 0 }}</p></div>
+      <div class="card p-3 sm:p-4"><p class="text-dark-400 text-[10px] sm:text-xs uppercase tracking-wider">{{ t('dash.today_requests') }}</p><p class="text-xl sm:text-2xl font-bold text-primary-400 mt-1">{{ overview.todayRequests?.toLocaleString() ?? '-' }}</p></div>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
       <div class="card p-5">
