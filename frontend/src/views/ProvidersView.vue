@@ -73,7 +73,14 @@
         </div>
         <div v-if="!editingId" class="mb-4"><p class="label">{{ t('prov.presets') }}</p><div class="flex flex-wrap gap-2"><button v-for="preset in presets" :key="preset.name" @click="applyPreset(preset)" class="btn-sm btn-secondary text-xs">{{ preset.name }}</button></div></div>
         <div class="space-y-3">
-          <div><label class="label">{{ t('prov.name') }}</label><input v-model="form.name" class="input" :placeholder="t('prov.name_ph')" /></div>
+          <div class="flex items-center justify-between mb-2">
+            <label class="label mb-0">{{ t('prov.name') }}</label>
+            <div class="flex gap-2">
+              <button @click="showForm=false" class="btn-sm btn-secondary">{{ t('prov.cancel') }}</button>
+              <button @click="saveProvider" :disabled="saving" class="btn-sm btn-primary">{{ saving?t('prov.saving'):t('prov.save') }}</button>
+            </div>
+          </div>
+          <input v-model="form.name" class="input" :placeholder="t('prov.name_ph')" />
           <div><label class="label">{{ t('prov.base_url') }}</label><input v-model="form.base_url" class="input font-mono text-xs" placeholder="https://api.openai.com/v1" /></div>
           <div><label class="label">{{ t('prov.api_key') }}</label><div class="relative"><input v-model="form.api_key" :type="showKey?'text':'password'" class="input font-mono text-xs pr-14" :placeholder="editingId?t('prov.api_key_keep'):'sk-xxx'" /><button @click="showKey=!showKey" class="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-dark-500 hover:text-dark-300">{{ showKey?t('prov.hide'):t('prov.show') }}</button></div></div>
           <div><label class="label">{{ t('prov.api_type') }}</label><input v-model="form.api_type" class="input" /></div>
@@ -97,7 +104,6 @@
           </div>
         </div>
         <p v-if="formError" class="text-red-400 text-sm mt-3">{{ formError }}</p>
-        <div class="flex justify-end gap-2 mt-5"><button @click="showForm=false" class="btn-secondary">{{ t('prov.cancel') }}</button><button @click="saveProvider" :disabled="saving" class="btn-primary">{{ saving?t('prov.saving'):t('prov.save') }}</button></div>
       </div>
     </div>
   </div>
