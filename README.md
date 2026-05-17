@@ -62,7 +62,7 @@ kore sits between your AI applications and API providers. Configure it once, and
 
 - **Real-time Dashboard** — Token usage charts, request volume trends, provider health ranking, fault pool status, geographic distribution, and recent request feed.
 
-- **Multi-language** — English and Chinese. Switchable from Settings.
+- **Backup & Restore** — Export all providers and strategies as a JSON file. Import to quickly restore or migrate configurations across instances.
 
 - **Secure** — API keys encrypted with AES-256-GCM in SQLite. Admin auth via JWT. kore generates its own independent keys (key0) for downstream apps.
 
@@ -243,6 +243,13 @@ kore exposes OpenAI-compatible endpoints:
 POST /v1/chat/completions    ← Main endpoint (streaming & non-streaming)
 POST /v1/completions         ← Text completions
 GET  /v1/models              ← Lists available models
+```
+
+### Management API (Dashboard Auth Required)
+
+```
+GET  /api/backup    ← Export all providers and strategies as JSON
+POST /api/backup    ← Import from JSON backup file
 ```
 
 ### Usage in Downstream Apps
