@@ -10,14 +10,15 @@ export async function apiKeyRoutes(app: FastifyInstance): Promise<void> {
   app.get('/api/keys', async () => {
     const db = getDb();
     const rows = db.prepare(`
-      SELECT ak.id, ak.strategy_id, s.name as strategy_name, ak.is_active, ak.created_at
+      SELECT ak.id, ak.strategy_id, ak.key_value, s.name as strategy_name, ak.is_active, ak.created_at
       FROM api_keys ak
       LEFT JOIN strategies s ON ak.strategy_id = s.id
       ORDER BY ak.created_at DESC
     `).all() as any[];
     return rows.map(r => ({
       ...r,
-      key_preview: r.id.substring(0, 8) + '...' + r.id.substring(r.id.length - 4),
+      key_value: r.key_value,
+      key_preview: r.key_value ? r.key_value.substring(0, 8) + '...' + r.key_value.substring(r.key_value.length - 4) : r.id.substring(0, 8) + '...' + r.id.substring(r.id.length - 4),
     }));
   });
 
