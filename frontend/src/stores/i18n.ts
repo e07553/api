@@ -273,6 +273,20 @@ const messages: Record<Lang, Record<string, string>> = {
     'set.donate_title': 'Buy Me a Coffee (USDT)',
     'set.donate_click': 'Click address to copy',
     'set.donate_copied': '✅ Copied Thanks',
+
+    // Backup / Restore
+    'set.backup_title': 'Backup & Restore',
+    'set.backup_export': 'Export Backup',
+    'set.backup_export_hint': 'Downloads all providers and strategies as a JSON file',
+    'set.backup_import': 'Import Backup',
+    'set.backup_import_hint': 'Restores providers and strategies from a backup file',
+    'set.backup_import_confirm': 'Import will add providers and strategies from the file. Duplicate names will be replaced. Continue?',
+    'set.backup_importing': 'Importing...',
+    'set.backup_success': 'Imported {p} providers, {s} strategies',
+    'set.backup_error': 'Import failed',
+    'set.backup_version_error': 'Invalid backup file version',
+    'set.backup_no_file': 'No file selected',
+    'set.backup_file_label': 'Select backup JSON file',
   },
 
   zh: {
@@ -524,6 +538,20 @@ const messages: Record<Lang, Record<string, string>> = {
     'set.donate_title': '请我喝杯瑞幸',
     'set.donate_click': '点击地址复制',
     'set.donate_copied': '地址已复制！',
+
+    // Backup / Restore
+    'set.backup_title': '备份与恢复',
+    'set.backup_export': '导出备份',
+    'set.backup_export_hint': '下载包含所有供应商和策略的 JSON 文件',
+    'set.backup_import': '导入备份',
+    'set.backup_import_hint': '从备份文件恢复供应商和策略',
+    'set.backup_import_confirm': '导入将添加备份文件中的供应商和策略，同名对象会被替换。确定继续？',
+    'set.backup_importing': '导入中...',
+    'set.backup_success': '已导入 {p} 个供应商，{s} 个策略',
+    'set.backup_error': '导入失败',
+    'set.backup_version_error': '无效的备份文件版本',
+    'set.backup_no_file': '未选择文件',
+    'set.backup_file_label': '选择备份 JSON 文件',
   },
 };
 

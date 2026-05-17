@@ -42,6 +42,20 @@
       </div>
     </div>
 
+    <!-- Backup & Restore -->
+    <div class="card p-6">
+      <h3 class="text-sm font-medium text-dark-300 mb-4">{{ t('set.backup_title') }}</h3>
+      <div class="flex flex-wrap gap-3">
+        <button @click="exportBackup" class="btn-sm btn-primary">{{ t('set.backup_export') }}</button>
+        <div class="flex items-center gap-2">
+          <input ref="importFileRef" type="file" accept=".json" class="hidden" @change="onFileSelected" />
+          <button @click="importFileRef.click()" :disabled="importing" class="btn-sm btn-secondary">{{ t('set.backup_import') }}</button>
+          <span v-if="importResult" :class="importResult.ok?'text-emerald-400':'text-red-400'" class="text-xs">{{ importResult.msg }}</span>
+        </div>
+      </div>
+      <p class="text-xs text-dark-500 mt-2">{{ t('set.backup_export_hint') }}</p>
+    </div>
+
     <!-- Password -->
     <div class="card p-6">
       <h3 class="text-sm font-medium text-dark-300 mb-4">{{ t('set.password_title') }}</h3>
@@ -191,6 +205,9 @@ const creatingKey = ref(false);
 const editingKeyId = ref('');
 const editKeyValue = ref('');
 const editKeyStrategy = ref('');
+const importFileRef = ref<HTMLInputElement | null>(null);
+const importing = ref(false);
+const importResult = ref<{ok:boolean; msg:string} | null>(null);
 let toastTimer: ReturnType<typeof setTimeout>;
 
 function switchLang(l: 'en'|'zh') { setLang(l); }
@@ -263,6 +280,45 @@ function copyKey() {
     if (navigator.clipboard) { navigator.clipboard.writeText(newKeyValue.value); }
     alert(t('set.copied'));
   } catch {}
+}
+
+async function exportBackup() {
+  try {
+    const data = await api('/api/backup');
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `kore-backup-${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  } catch(err: any) { alert(err.message); }
+}
+
+function onFileSelected(e: Event) {
+  const file = (e.target as HTMLInputElement).files?.[0];
+  if (!file) return;
+  importResult.value = null;
+  if (!confirm(t('set.backup_import_confirm'))) return;
+  importing.value = true;
+  const reader = new FileReader();
+  reader.onload = async (ev) => {
+    try {
+      const text = ev.target?.result as string;
+      const json = JSON.parse(text);
+      const r: any = await api('/api/backup', { method: 'POST', body: JSON.stringify(json) });
+      importResult.value = { ok: true, msg: t('set.backup_success', { p: r.imported_providers, s: r.imported_strategies }) };
+      if (r.errors?.length > 0) {
+        console.warn('Import warnings:', r.errors);
+      }
+    } catch(err: any) {
+      importResult.value = { ok: false, msg: err.message || t('set.backup_error') };
+    } finally {
+      importing.value = false;
+      if (importFileRef.value) importFileRef.value.value = '';
+    }
+  };
+  reader.readAsText(file);
 }
 
 onMounted(()=>{loadSettings();loadStats();loadApiKeys();loadStrategies();});

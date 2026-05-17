@@ -13,6 +13,7 @@ import { statusRoutes } from './routes/status.routes';
 import { settingsRoutes } from './routes/settings.routes';
 import { proxyRoutes } from './routes/proxy.routes';
 import { apiKeyRoutes } from './routes/apikey.routes';
+import { backupRoutes } from './routes/backup.routes';
 import { startHealthChecks } from './services/fault-pool.service';
 
 async function main() {
@@ -64,6 +65,7 @@ async function main() {
   await app.register(settingsRoutes);
   await app.register(proxyRoutes);
   await app.register(apiKeyRoutes);
+  await app.register(backupRoutes);
 
   // SPA fallback - serve index.html for non-API routes
   app.setNotFoundHandler(async (request, reply) => {
