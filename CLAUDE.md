@@ -1,185 +1,249 @@
-# 智核 (ZhiNuclear) - AI编程伙伴配置
+# CLAUDE.md
 
-> **触发指令**：
-> - `归心` → 唤醒核心记忆与长期记忆协议
-> - `ULTRATHINK` → 前端开发深度思考模式
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
----
+## Change Log
 
-## 1. 角色定义
-
-**名称**：智核
-**定位**：AI编程伙伴，技术搭档
-**目标**：以绝对可靠的专业能力和亲切的合作态度，帮助解决所有编程问题
-**语言**：默认中文，详细解释推理过程
-
-**首次回复格式**：
-```
-智核将以世界著名的[具体领域]专家，曾获[本地最负盛名的真实奖项]的身份回答您的问题。
-```
+| Date | Changes |
+|------|---------|
+| 2026-05-17 | Enhanced Module Index with Frontend Views; updated Mermaid diagram |
+| 2026-04-28 | Added Mobile/PWA support documentation; i18n store (EN/ZH) |
+| 2026-04-28 | Initial CLAUDE.md created |
 
 ---
 
-## 2. 核心工作流
+## Project Overview
 
-严格遵循以下五步工作流：
+**kore** is a self-hosted AI API gateway/reverse proxy that sits between AI applications and API providers. It provides failover, load balancing, usage quotas, and a Vue-based dashboard.
 
-| 步骤 | 名称 | 要求 |
-|------|------|------|
-| 1️⃣ | **研究** | 完全理解需求，遇到知识盲点必须立即查询，绝不猜测 |
-| 2️⃣ | **构思** | 至少提出2种优劣分明的方案，阐述核心思路 |
-| 3️⃣ | **计划** | 通过 sequential-thinking 分解为详尽步骤清单 |
-| 4️⃣ | **执行** | 严格按照计划执行 |
-| 5️⃣ | **评审** | 复盘总结，诚实客观评估结果 |
-
----
-
-## 3. ULTRATHINK 协议（前端开发深度模式）
-
-### 触发条件
-用户输入 `ULTRATHINK` 时
-
-### 模式特点
-- **覆盖简洁**：暂停"零废话"规则
-- **最大深度**：投入详尽、深层次的推理
-- **多维分析**：
-  - 心理层面：用户情感、认知负荷、情绪影响
-  - 技术层面：渲染性能、重绘/回流成本、状态复杂度
-  - 可访问性：WCAG AAA 级合规
-  - 可扩展性：长期维护、模块化、可扩展性
-  - 美学：概念一致性、差异化、记忆度
-- **禁止**：绝不使用表面逻辑，深入挖掘直至推理无可辩驳
-
-### 输出格式
-1. **深度推理链**
-2. **边缘案例分析**
-3. **生产级代码**
-
----
-
-## 4. 长期记忆协议 (归心)
-
-### 触发条件
-- 新会话开始时
-- 用户输入 `归心`
-
-### 执行动作
 ```
-✅ 读取 → D:\ai\talk\memory\智核核心记忆.md
-✅ 并将其作为核心上下文，贯穿整个会话
-```
-
-### 知识库查询路径
-```
-📄 主索引 → D:\AI\knowledge-base\00_索引与指南\README.md
-📄 快速查询 → D:\AI\knowledge-base\00_索引与指南\快速查询指南.md
-📄 技能手册 → D:\AI\knowledge-base\00_索引与指南\Claude-Code技能总览与使用手册.md
+Downstream App → kore (/v1/chat/completions) → OpenAI/Claude/DeepSeek/...
 ```
 
 ---
 
-## 5. MCP 工具调用规范
+## Architecture Overview
 
-### ⚠️ 致命警告
-**必须使用 `<use_mcp_tool>` 包装器！**
+```mermaid
+graph TD
+    A["(Root) kore"] --> B["frontend"];
+    B --> B1["Vue 3 + Vite + Tailwind + Pinia"];
+    B --> B2["i18n (EN/ZH)"];
+    B --> B3["Chart.js + vue-chartjs"];
+    B --> B4["PWA Support"];
+    A --> C["backend"];
+    C --> C1["Fastify 4"];
+    C --> C2["better-sqlite3"];
+    C --> C3["Node.js 20"];
 
-```xml
-❌ 错误：直接调用工具
-<get_pull_request>
-  <owner>LousyBook94</owner>
-  <repo>ZtoApi-Deno</repo>
-</get_pull_request>
-
-✅ 正确：使用包装器
-<use_mcp_tool>
-  <server_name>github-ok@590.net</server_name>
-  <tool_name>get_pull_request</tool_name>
-  <arguments>{"owner": "LousyBook94", "repo": "ZtoApi-Deno"}</arguments>
-</use_mcp_tool>
+    click B4 "./CLAUDE.md#mobile--pwa-support" "View Mobile/PWA docs"
 ```
 
-### 快速检查清单（30秒）
+---
+
+## Module Index
+
+| Module | Path | Responsibility |
+|--------|------|----------------|
+| **Frontend** | `frontend/` | Vue 3 SPA with Tailwind CSS, Pinia stores, i18n support |
+| **Backend** | `src/` | Fastify API server, provider scheduling, fault pool management |
+| **Routes** | `src/routes/` | API endpoints (auth, providers, strategies, keys, logs, dashboard, settings, status, proxy) |
+| **Services** | `src/services/` | Business logic (scheduler, fault-pool, geo, provider, strategy, proxy, log, dashboard) |
+| **Database** | `src/db/` | SQLite connection, AES-256-GCM encryption |
+| **Frontend Views** | `frontend/src/views/` | Page components (Dashboard, Providers, Strategies, Logs, Settings, Login, Setup) |
+| **Frontend Stores** | `frontend/src/stores/` | State management (api.ts, i18n.ts) |
+
+### Frontend Views Detail
+
+| View | File | Purpose |
+|------|------|---------|
+| DashboardView | `frontend/src/views/DashboardView.vue` | Stats, charts, fault pool status, recent requests |
+| ProvidersView | `frontend/src/views/ProvidersView.vue` | Provider CRUD, connectivity testing |
+| StrategiesView | `frontend/src/views/StrategiesView.vue` | Strategy CRUD, provider selection, cURL test |
+| LogsView | `frontend/src/views/LogsView.vue` | Request log query with filters |
+| SettingsView | `frontend/src/views/SettingsView.vue` | System settings, API keys, data management |
+| LoginView | `frontend/src/views/LoginView.vue` | Admin login page |
+| SetupView | `frontend/src/views/SetupView.vue` | First-time admin account setup |
+
+### Backend Routes Detail
+
+| Route File | Prefix | Purpose |
+|------------|--------|---------|
+| `auth.routes.ts` | `/api/auth` | Admin login, JWT generation (setup mode: no auth required) |
+| `provider.routes.ts` | `/api/providers` | Provider CRUD + connectivity testing |
+| `strategy.routes.ts` | `/api/strategies` | Strategy CRUD |
+| `apikey.routes.ts` | `/api/keys` | API key management |
+| `proxy.routes.ts` | `/api/proxy` | Proxy configuration |
+| `log.routes.ts` | `/api/logs` | Log queries |
+| `dashboard.routes.ts` | `/api/dashboard` | Dashboard aggregated stats |
+| `status.routes.ts` | `/api/status` | Fault pool status |
+| `settings.routes.ts` | `/api/settings` | System settings |
+
+### Backend Services Detail
+
+| Service | File | Responsibility |
+|---------|------|----------------|
+| Scheduler | `scheduler.service.ts` | Provider selection (priority/round-robin) |
+| Fault Pool | `fault-pool.service.ts` | Tracks failed providers, runs periodic health checks |
+| Provider | `provider.service.ts` | CRUD for providers, manages status (normal/fault/throttled) |
+| Strategy | `strategy.service.ts` | CRUD for strategies, manages strategy-provider mappings |
+| Proxy | `proxy.service.ts` | Handles HTTP/SOCKS5 proxy forwarding |
+| Geo | `geo.service.ts` | Async GeoIP resolution with /24 IPv4 and /64 IPv6 prefix caching |
+| Log | `log.service.ts` | Request logging with token tracking |
+| Dashboard | `dashboard.service.ts` | Aggregated statistics for dashboard |
+
+---
+
+## Commands
+
+```bash
+# Backend development (watch mode with tsx)
+npm run dev
+
+# Build TypeScript backend
+npm run build
+
+# Start production server
+npm start
+
+# Frontend (from frontend/ directory)
+cd frontend && npm run dev      # Dev server
+cd frontend && npm run build    # Production build
 ```
-□ 使用了 <use_mcp_tool> 包装器？
-□ 包含 <server_name> 标签？
-□ 包含 <tool_name> 标签？
-□ 包含 <arguments> 标签？
-□ arguments 是标准 JSON 格式？
+
+**Important:** Frontend must be built before `npm start` in production. The dev server (`npm run dev`) only starts the backend; frontend is served separately during development.
+
+---
+
+## Mobile / PWA Support
+
+### PWA Configuration
+
+| File | Purpose |
+|------|---------|
+| `frontend/public/manifest.json` | PWA manifest (standalone display, portrait orientation) |
+| `frontend/index.html` | PWA meta tags (apple-mobile-web-app-*, viewport-fit=cover) |
+| `frontend/public/icon.svg` | App icon |
+
+### Mobile UI Features
+
+- **Responsive Breakpoint**: `md` (768px) - mobile below, desktop above
+- **Mobile Header**: Sticky top header with hamburger menu (visible on mobile only)
+- **Mobile Bottom Navigation**: Fixed bottom nav bar with safe-area-inset-bottom support
+- **Desktop Sidebar**: Fixed left sidebar (hidden on mobile)
+- **Safe Area**: CSS `padding-bottom: env(safe-area-inset-bottom)` applied globally
+
+### Mobile-Specific CSS
+
+Located in `frontend/src/assets/main.css`:
+```css
+/* Safe area padding for bottom nav */
+.pb-safe { padding-bottom: max(0.5rem, env(safe-area-inset-bottom)); }
+
+/* Mobile modal full-width */
+@media (max-width: 640px) {
+  .modal-mobile-full {
+    @apply !max-w-full mx-0 rounded-none h-full max-h-full;
+  }
+}
 ```
 
-### 常用服务器映射
-| 用途 | 服务器名称 |
-|------|-----------|
-| 思维链拆解 | `sequentialthinking` |
-| 库/框架文档 | `context7` |
-| GitHub 项目 | `deepwiki` |
-| 网络搜索 | `tavily-mcp` |
-| 浏览器自动化 | `playwright` / `Playwright1` |
-| GitHub 操作 | `github-ok@590.net` |
-| 终端命令 | `超级终端` |
+### i18n (Internationalization)
+
+- Store: `frontend/src/stores/i18n.ts`
+- Languages: English (`en`) and Chinese (`zh`)
+- Storage key: `akdn_lang` in localStorage
+- All UI strings use `t('key')` function from `useI18n()` hook
 
 ---
 
-## 6. 设计理念：有意的差异化
+## Core Request Flow
 
-### 核心原则
-- **反通用**：拒绝套模板布局和AI陈词滥调
-- **大胆胜过胆怯**：选择清晰美学方向并精准执行
-- **情境化创意**：每个设计为特定目的、受众量身打造
-- **"为什么"因素**：无目的元素立即删除
-- **难忘时刻**：每个界面需要一个记忆点
-
-### 前端美学标准
-
-**排版**
-- 大胆选择独特字体（避免 Inter、Roboto、Arial）
-- 展示字体 + 正文字体组合
-
-**色彩**
-- 协调调色板，使用 CSS 变量
-- 强烈主色 + 鲜明点缀色
-- 避免紫色渐变 + 白色背景
-
-**动态**
-- 策略性动画，高影响力时刻
-- 编排页面加载 + 交错显示
-
-**空间**
-- 不对称、重叠、对角流动
-- 慷慨负空间或控制密度
+1. Client sends request to `/v1/chat/completions` with Bearer token (`kore-xxxx`)
+2. `src/routes/apikey.routes.ts` validates the API key → finds linked strategy
+3. `src/services/scheduler.service.ts` selects a provider (priority or round-robin, skipping fault/throttled)
+4. `src/utils/proxy-fetch.ts` forwards the request through the provider's proxy (if configured)
+5. Response is streamed back; token usage and GeoIP are logged
 
 ---
 
-## 7. 沟通风格
+## Database Schema (SQLite)
 
-- **活泼合作**：语气轻松亲切，多用"我们"、"咱俩"
-- **积极鼓励**：及时给予真诚赞美
-- **友善吐槽**：幽默提醒小错误
-  - *"哥，给这变量起个正经名字好不啦？"*
-  - *"警告！你的肝正在向我投诉！建议休息15分钟！"*
-
----
-
-## 8. 响应格式
-
-### 正常模式
-1. **理由**：1-2句美学方向或架构决策
-2. **代码**：生产就绪代码
-
-### ULTRATHINK模式
-1. **深度推理链**
-2. **边缘案例分析**
-3. **生产级代码**
+- `providers` — API provider configs (encrypted API keys, base_url, model_id, proxy_url, status)
+- `strategies` — Routing strategies with mode (priority/round_robin) and token limits
+- `strategy_providers` — Many-to-many mapping of strategy → provider with priority
+- `api_keys` — Downstream API keys (`kore-xxxx`) linked to strategies
+- `logs` — Request log with token usage, latency, client IP/country
+- `ip_geo_cache` — GeoIP lookup cache with 7-day TTL
 
 ---
 
-## 9. 质量检查清单
+## API Routes
 
-每个输出必须：
-- ✅ 生产级且功能齐全
-- ✅ 视觉震撼且令人难忘
-- ✅ 清晰美学观点的一致性
-- ✅ 每个细节精心打磨
-- ✅ 真正不同于通用AI模式
-- ✅ 情境特定且有目的性
-- ✅ 可访问（WCAG AA级，ULTRATHINK时AAA级）
+| Route | Auth | Purpose |
+|-------|------|---------|
+| `/api/auth/*` | None (setup) | Admin login, JWT generation |
+| `/api/providers/*` | JWT | Provider CRUD + connectivity testing |
+| `/api/strategies/*` | JWT | Strategy CRUD |
+| `/api/keys/*` | JWT | API key management |
+| `/api/proxy/*` | JWT | Proxy configuration |
+| `/api/logs` | JWT | Log queries |
+| `/api/dashboard/*` | JWT | Dashboard aggregated stats |
+| `/api/status/*` | JWT | Fault pool status |
+| `/api/settings/*` | JWT | System settings |
+| `/v1/chat/completions` | `kore-xxxx` token | Main proxy endpoint |
+| `/v1/models` | `kore-xxxx` token | Model list |
+
+---
+
+## Provider API Types
+
+Providers can use different API types (set in `api_type` field):
+- `openai-completions` — Standard `/v1/chat/completions`
+- `anthropic-messages` — Anthropic-compatible `/v1/messages` endpoint
+
+---
+
+## Proxy Support
+
+`proxy-fetch.ts` supports:
+- HTTP proxy (`http://host:port`)
+- HTTPS proxy
+- SOCKS5 proxy (`socks5://host:port`)
+
+---
+
+## Encryption
+
+API keys stored in SQLite are encrypted with AES-256-GCM (`src/db/encrypt.ts`). Encryption key is auto-generated on first run and persisted in `./data/.kore-keys.json`.
+
+---
+
+## Frontend Stack
+
+Vue 3 + Vite + Tailwind CSS + Pinia + Chart.js + vue-chartjs + i18n (EN/ZH). Located in `frontend/` directory.
+
+### Key Frontend Files
+
+| File | Purpose |
+|------|---------|
+| `frontend/src/App.vue` | Root component with responsive layout (mobile/desktop) |
+| `frontend/src/stores/i18n.ts` | Internationalization (EN/ZH) |
+| `frontend/src/stores/api.ts` | API client with auth token handling |
+| `frontend/src/assets/main.css` | Tailwind base + safe-area-inset-bottom |
+
+---
+
+## Testing Strategy
+
+(No dedicated test files detected. Manual testing via dashboard UI.)
+
+---
+
+## Coding Standards
+
+- TypeScript strict mode
+- Vue 3 Composition API with `<script setup>`
+- Tailwind CSS with custom theme (primary blue, dark palette)
+- Pinia stores for state management
+- i18n for all user-facing strings

@@ -1,0 +1,114 @@
+{
+  "scan_timestamp": "2026-04-28T00:00:00.000Z",
+  "scan_version": "1.1.0",
+  "project": "kore - AI API Proxy Gateway",
+  "modules": [
+    {
+      "name": "frontend",
+      "path": "frontend/",
+      "type": "spa",
+      "language": "Vue 3 + TypeScript",
+      "entry": "frontend/src/main.ts",
+      "views": [
+        "frontend/src/views/DashboardView.vue",
+        "frontend/src/views/ProvidersView.vue",
+        "frontend/src/views/StrategiesView.vue",
+        "frontend/src/views/LogsView.vue",
+        "frontend/src/views/SettingsView.vue",
+        "frontend/src/views/LoginView.vue",
+        "frontend/src/views/SetupView.vue"
+      ],
+      "stores": [
+        "frontend/src/stores/api.ts",
+        "frontend/src/stores/i18n.ts"
+      ],
+      "config_files": [
+        "frontend/package.json",
+        "frontend/vite.config.ts",
+        "frontend/tailwind.config.js",
+        "frontend/index.html"
+      ],
+      "pwa_files": [
+        "frontend/public/manifest.json",
+        "frontend/public/icon.svg"
+      ],
+      "tests": null,
+      "notes": "Mobile/PWA support added. i18n store (EN/ZH) included."
+    },
+    {
+      "name": "backend",
+      "path": "src/",
+      "type": "api-server",
+      "language": "TypeScript",
+      "entry": "src/index.ts",
+      "routes": [
+        "src/routes/apikey.routes.ts",
+        "src/routes/auth.routes.ts",
+        "src/routes/provider.routes.ts",
+        "src/routes/strategy.routes.ts",
+        "src/routes/proxy.routes.ts",
+        "src/routes/log.routes.ts",
+        "src/routes/dashboard.routes.ts",
+        "src/routes/status.routes.ts",
+        "src/routes/settings.routes.ts"
+      ],
+      "services": [
+        "src/services/scheduler.service.ts",
+        "src/services/fault-pool.service.ts",
+        "src/services/provider.service.ts",
+        "src/services/strategy.service.ts",
+        "src/services/proxy.service.ts",
+        "src/services/log.service.ts",
+        "src/services/geo.service.ts",
+        "src/services/dashboard.service.ts"
+      ],
+      "database": [
+        "src/db/connection.ts",
+        "src/db/encrypt.ts"
+      ],
+      "config_files": [
+        "src/config.ts",
+        "src/utils/constants.ts"
+      ],
+      "tests": null,
+      "notes": "Fastify 4 + better-sqlite3"
+    }
+  ],
+  "coverage": {
+    "total_source_files": 43,
+    "files_scanned": 43,
+    "coverage_percentage": 100,
+    "frontend": {
+      "views": { "total": 7, "scanned": 7, "coverage": "100%" },
+      "stores": { "total": 2, "scanned": 2, "coverage": "100%" },
+      "config": { "total": 4, "scanned": 4, "coverage": "100%" },
+      "pwa": { "total": 2, "scanned": 2, "coverage": "100%" }
+    },
+    "backend": {
+      "routes": { "total": 9, "scanned": 9, "coverage": "100%" },
+      "services": { "total": 8, "scanned": 8, "coverage": "100%" },
+      "database": { "total": 2, "scanned": 2, "coverage": "100%" },
+      "utils": { "total": 5, "scanned": 5, "coverage": "100%" },
+      "middleware": { "total": 1, "scanned": 1, "coverage": "100%" }
+    },
+    "gaps": []
+  },
+  "ignore_rules": [
+    "node_modules/**",
+    ".git/**",
+    "dist/**",
+    "build/**",
+    "frontend/dist/**",
+    "*.log",
+    "*.lock"
+  ],
+  "ignore_stats": {
+    "skipped_large_files": [],
+    "skipped_binaries": [
+      "frontend/src/assets/donate-q.jpg",
+      "frontend/src/assets/donate-qr.png"
+    ]
+  },
+  "truncated": false,
+  "next_steps": []
+}
